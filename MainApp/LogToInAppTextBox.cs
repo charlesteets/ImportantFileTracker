@@ -9,17 +9,17 @@ namespace MainApp
 {
     public class LogToInAppTextBox : ILogger
     {
-        public Settings settings { get; set; }
+        public MainWindow mainWindow { get; set; }
         
-    public LogToInAppTextBox(Settings _settings)
+        public LogToInAppTextBox(MainWindow _mainWindow)
         {
-            settings = _settings;
+            mainWindow = _mainWindow;
         }
         public void Log(string infoToLog)
         {
-            ListBoxItem newMarkedFile = new ListBoxItem();
-            newMarkedFile.Content = DateTime.Now + "- " + infoToLog;
-            settings.mainWindow.LogListBoxItems.Add(newMarkedFile);
+            ListBoxItem newLogItem = new ListBoxItem() { Content = DateTime.Now + "- " + infoToLog };
+            mainWindow.logListBoxItems.Add(newLogItem);
+            mainWindow.LogListBox.ScrollIntoView(newLogItem);
         }
     }
 }

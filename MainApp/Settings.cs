@@ -13,7 +13,7 @@ namespace MainApp
         public Settings(MainWindow app)
         {
             mainWindow = app;
-            Logger = new LogToInAppTextBox(this);
+            Logger = new LogToInAppTextBox(this.mainWindow);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace MainApp
 {
     public interface ILogger
     {
-        public Settings settings { get; set; }
+        public MainWindow mainWindow { get; set; }
         void Log(string infoToLog);
         
     }

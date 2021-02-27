@@ -27,12 +27,10 @@ namespace MainApp
 
         private List<MarkedFileData> markedFiles = new List<MarkedFileData>();
 
-        private ItemCollection logListBoxItems;
-        public ItemCollection LogListBoxItems { get { return LogListBox.Items; }  set { logListBoxItems = value; } } 
+        public ItemCollection logListBoxItems;
         
         public MainWindow()
         {
-            DataContext = this;
             InitializeComponent();
             settings = new Settings(this);
             LogListBox.ItemsSource = logListBoxItems;
@@ -221,7 +219,6 @@ namespace MainApp
         private void OutputLog(string infoToLog)
         {
             settings.Logger.Log(infoToLog);
-            LogListBox.ScrollIntoView(LogListBox.Items[LogListBox.Items.Count - 1]);
         }
 
 
