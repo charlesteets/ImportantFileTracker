@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MainApp
 {
-    interface IFindFile
+    public interface IFindFile
     {
         string FullFilePath { get; }
     }

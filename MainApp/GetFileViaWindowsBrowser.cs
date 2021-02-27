@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace MainApp
 {
@@ -11,11 +9,7 @@ namespace MainApp
                 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    using StreamReader reader = new StreamReader(openFileDialog.FileName);
-                    string filePath = File.OpenRead(openFileDialog.FileName).Name;
-                    reader.Close();
-                    reader.Dispose();
-                    return filePath;
+                    return openFileDialog.FileName;
                 }
                 else
                 {

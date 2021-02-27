@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Controls;
 
 namespace MainApp
 {
-    interface ILogger
+    public interface ILogger
     {
+        public Settings settings { get; set; }
         void Log(string infoToLog);
+        
     }
 }

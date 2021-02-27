@@ -130,7 +130,7 @@
                 </WrapPanel>
             </Grid>
         </WrapPanel>
-        <ListBox Name="TextOutput" MinHeight="100" MaxHeight="100" MinWidth="270" MaxWidth="270"  Grid.Column="0" Grid.Row="2" ItemsSource="{Binding Path=BoundConsoleLog, Mode=OneWay}" >
+        <ListBox Name="LogListBox" MinHeight="100" MaxHeight="100" MinWidth="270" MaxWidth="270"  Grid.Column="0" Grid.Row="2" ItemsSource="{Binding Path=BoundConsoleLog, Mode=OneWay}" >
         </ListBox>
     </Grid>
 </Window>

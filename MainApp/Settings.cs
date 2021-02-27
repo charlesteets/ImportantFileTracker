@@ -4,9 +4,16 @@ using System.Text;
 
 namespace MainApp
 {
-    static class Settings
+    public class Settings
     {
-        static public IFindFile GetFile = new GetFileViaWindowsBrowser();
-        static public ILogger Logger = new LogToInAppTextBox();
+        public MainWindow mainWindow;
+        
+        public IFindFile GetFile = new GetFileViaWindowsBrowser();
+        public ILogger Logger;
+        public Settings(MainWindow app)
+        {
+            mainWindow = app;
+            Logger = new LogToInAppTextBox(this);
+        }
     }
 }

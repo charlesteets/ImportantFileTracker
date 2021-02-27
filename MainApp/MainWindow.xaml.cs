@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Diagnostics;
 using Ookii.Dialogs.Wpf;
 using System.Linq;
+using System.Windows.Data;
+using System.Collections.ObjectModel;
 
 namespace MainApp
 {
@@ -21,21 +23,24 @@ namespace MainApp
     {
         private Stream file;
         private BackupManager backupManager;
-
+        public Settings settings;
 
         private List<MarkedFileData> markedFiles = new List<MarkedFileData>();
 
-
+        private ItemCollection logListBoxItems;
+        public ItemCollection LogListBoxItems { get { return LogListBox.Items; }  set { logListBoxItems = value; } } 
+        
         public MainWindow()
         {
             DataContext = this;
             InitializeComponent();
-
+            settings = new Settings(this);
+            LogListBox.ItemsSource = logListBoxItems;
         }
 
         private void Browse_Click(object sender, RoutedEventArgs e)
         {
-            FileBrowsedTo.Text = Settings.GetFile.FullFilePath; //use File Finder chosen in settings
+            FileBrowsedTo.Text = settings.GetFile.FullFilePath; //use File Finder chosen in settings
         }
 
         private void Mark_Click(object sender, RoutedEventArgs e)
@@ -211,13 +216,12 @@ namespace MainApp
 
             OutputLog("Backup attempted.");
         }
+
+
         private void OutputLog(string infoToLog)
         {
-            ListBoxItem newMarkedFile = new ListBoxItem();
-
-            TextOutput.Items.Add(newMarkedFile);
-            TextOutput.ScrollIntoView(newMarkedFile);
-            newMarkedFile.Content = DateTime.Now + "- " + infoToLog;
+            settings.Logger.Log(infoToLog);
+            LogListBox.ScrollIntoView(LogListBox.Items[LogListBox.Items.Count - 1]);
         }
 
 
