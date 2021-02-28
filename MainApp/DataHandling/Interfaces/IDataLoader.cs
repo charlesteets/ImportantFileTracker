@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 
 namespace MainApp
 {
-    internal interface IFindFile
+    internal interface IDataLoader
     {
-        string FullFilePath { get; }
+        void LoadData();
     }
 }

@@ -5,9 +5,9 @@ using System.Windows.Controls;
 
 namespace MainApp
 {
-    public interface ILogger
+    internal interface ILogger
     {
-        public MainWindow mainWindow { get; set; }
+        MainWindow mainWindow { get; set; }
         void Log(string infoToLog);
         
     }

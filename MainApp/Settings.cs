@@ -4,16 +4,28 @@ using System.Text;
 
 namespace MainApp
 {
-    public class Settings
+    internal class Settings
     {
-        public MainWindow mainWindow;
+        internal MainWindow mainWindow;
+
+        //BIZ LOGIC
+        internal IFindFile FileFinder = new GetFileViaWindowsBrowser();
+        internal IDataSaver DataSaver;
+        internal IDataLoader DataLoader;
+        internal IBackupManager BackupManager;
         
-        public IFindFile GetFile = new GetFileViaWindowsBrowser();
-        public ILogger Logger;
-        public Settings(MainWindow app)
+        //UI
+        internal ILogger Logger;
+        internal IDisplayMarkedFiles MarkedFilesDisplayer;
+
+        internal Settings(MainWindow app)
         {
             mainWindow = app;
-            Logger = new LogToInAppTextBox(this.mainWindow);
+            Logger = new LogViaInAppListBox(this.mainWindow);
+            DataSaver = new SaveDataToTextFile(this.mainWindow);
+            DataLoader = new LoadDataFromTextFile(this.mainWindow);
+            BackupManager = new BackupViaFileCopying(this.mainWindow);
+            MarkedFilesDisplayer = new DisplayMarkedFilesViaInAppListBox(this.mainWindow);
         }
     }
 }

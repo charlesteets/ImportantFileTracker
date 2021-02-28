@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Windows.Controls;
 
 namespace MainApp
 {
@@ -12,6 +15,8 @@ namespace MainApp
         public string name { get; set; }
         public DateTime dateTimeAdded { get; set; }
         public string notes { get; set; }
+
+        static public ObservableCollection<MarkedFileData> MarkedFiles { get; private set; } = new ObservableCollection<MarkedFileData>();
 
         public MarkedFileData(string _fullPath)
         {
@@ -29,6 +34,7 @@ namespace MainApp
             dateTimeAdded = DateTime.Now;
         }
 
+
         [Newtonsoft.Json.JsonConstructor]
         public MarkedFileData(int id, string fullPath, string name, DateTime dateTimeAdded, string notes)
         {
@@ -38,6 +44,13 @@ namespace MainApp
             this.dateTimeAdded = dateTimeAdded;
             this.notes = notes;
         }
-
+        public void Run()
+        {
+            ProcessStartInfo processInfo = new ProcessStartInfo();
+            processInfo.UseShellExecute = true;
+            processInfo.FileName = fullPath;
+            Process.Start(processInfo);
+            
+        }
     }
 }
