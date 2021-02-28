@@ -46,28 +46,23 @@ namespace MainApp
 
         private void MarkedFile_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (sender.GetType() == typeof(ListBox))
+            if (sender is ListBoxItem markedFile)
             {
-                MarkedFileData thisData = (MarkedFileData)((ListBox)sender).SelectedItem;
-                thisData.Run();
-                settings.Logger.Log("Opened " + thisData.fullPath + ".");
+                if (markedFile.DataContext is MarkedFileData thisData)
+                {
+                    thisData.Run();
+                    settings.Logger.Log("Opened " + thisData.fullPath + ".");
+                }
             }
-        }
-
-        
-        internal void EnableNotesTextBox()
-        {
-            Notes.IsEnabled = true;
         }
         
         private void MarkedFile_Selected(object sender, RoutedEventArgs e)
         {
-                EnableNotesTextBox();
-                MarkedFileData thisData = (MarkedFileData)(((ListBoxItem)sender).DataContext);
-                Notes.Text = thisData.notes;
-                DateAdded.Text = thisData.dateTimeAdded.ToString();
+            NotesTextBox.IsEnabled = true;
+            MarkedFileData thisData = (MarkedFileData)(((ListBoxItem)sender).DataContext);
+            NotesTextBox.Text = thisData.notes;
+            DateAdded.Text = thisData.dateTimeAdded.ToString();
         }
-
         
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
@@ -82,10 +77,10 @@ namespace MainApp
 
         private void UnmarkCurrentFile_Click(object sender, RoutedEventArgs e)
         {
-            if (MarkedFileList.SelectedItem is MarkedFileData fileData) {
-                    settings.Logger.Log("Removed " + fileData.fullPath + " from marked file list.");
-                    MarkedFileData.MarkedFiles.Remove(fileData);
-                    ClearMarkedFileSelection();
+            if (MarkedFileList.SelectedItem is MarkedFileData selectedFile) {
+                settings.Logger.Log("Removed " + selectedFile.fullPath + " from marked file list.");
+                MarkedFileData.MarkedFiles.Remove(selectedFile);
+                MarkedFileList.SelectedItem = null;
             }
             else
             {
@@ -93,14 +88,8 @@ namespace MainApp
             }
         }
 
-        private void ClearMarkedFileSelection()
-        {
-            MarkedFileList.SelectedItem = null;
-            DateAdded.Text = "";
-            Notes.Text = "";
-        }
 
-        private void Notes_KeyUp(object sender, KeyEventArgs e)
+        private void NotesTextBox_KeyUp(object sender, KeyEventArgs e)
         {
             ((MarkedFileData)MarkedFileList.SelectedItem).notes = ((TextBox)sender).Text;
         }
@@ -108,11 +97,8 @@ namespace MainApp
         [STAThread]
         private void BrowseToBackupFolder_Click(object sender, RoutedEventArgs e)
         {
-            var ookiiDialog = new VistaFolderBrowserDialog();
-            if (ookiiDialog.ShowDialog() == true)
-            {
-                BackupFolderBrowsedTo.Text = ookiiDialog.SelectedPath;
-            }
+            BackupFolderBrowsedTo.Text = settings.FolderFinder.FullFilePath;
+            settings.BackupManager.BackupDirectory = BackupFolderBrowsedTo.Text;
             settings.Logger.Log("Set " + BackupFolderBrowsedTo.Text + " as backup directory.");
         }
 
@@ -127,13 +113,13 @@ namespace MainApp
 
         private void MarkedFileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (sender.GetType() == typeof(ListBox))
+            if (sender is ListBox markedFileList)
             {
-                ListBox thisBox = sender as ListBox;
-                if (thisBox.SelectedItem == null)
+                if (markedFileList.SelectedItem == null)
                 {
-                    Notes.IsEnabled = false;
-                    Notes.Text = "";
+                    NotesTextBox.IsEnabled = false;
+                    NotesTextBox.Text = "";
+                    DateAdded.Text = "";
                 }
             }
         }

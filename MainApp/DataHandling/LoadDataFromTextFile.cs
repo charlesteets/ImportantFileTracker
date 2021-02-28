@@ -27,9 +27,6 @@ namespace MainApp
             {
                 MarkedFileData.MarkedFiles.Add(jArray[i].ToObject<MarkedFileData>());
             }
-
-            mainWindow.Notes.Text = "";
-            mainWindow.DateAdded.Text = "00/00/0000";
         }
     }
 }

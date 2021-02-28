@@ -6,6 +6,7 @@ namespace MainApp
 {
     internal interface IBackupManager
     {
+        public string BackupDirectory { get; set; }
         void BackUp();
     }
 }

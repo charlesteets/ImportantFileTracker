@@ -10,6 +10,7 @@ namespace MainApp
 
         //BIZ LOGIC
         internal IFindFile FileFinder = new GetFileViaWindowsBrowser();
+        internal IFindFile FolderFinder = new GetFolderViaOokiiDialog();
         internal IDataSaver DataSaver;
         internal IDataLoader DataLoader;
         internal IBackupManager BackupManager;

@@ -9,7 +9,7 @@ namespace MainApp
     internal class BackupViaFileCopying : IBackupManager
     {
         internal MainWindow mainWindow;
-        private string BackupDirectory { get; set; } = "";
+        public string BackupDirectory { get; set; } = "";
 
         public BackupViaFileCopying(MainWindow _mainWindow)
         {
