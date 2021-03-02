@@ -57,6 +57,17 @@
                         " Click="UnmarkCurrentFile_Click">
                     Unmark
                 </Button>
+
+                <Button Name="GoogleDrive" Margin="0" Grid.Row="3
+                        " Click="GoogleDriveClick">
+                    Google Drive Login
+                </Button>
+                <Button Name="GoogleDriveMkDir" Margin="0" Grid.Row="4" 
+                        Click="GoogleDriveMakeDirectory">
+                    Google Drive Mkdir
+                </Button>
+
+
             </Grid>
         </WrapPanel>
         <WrapPanel Grid.Column="1">

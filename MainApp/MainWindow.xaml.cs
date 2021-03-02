@@ -1,23 +1,27 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.Json;
+﻿using System;
+using Google.Apis.Drive.v3;
+using Google.Apis.Auth.OAuth2;
+using System.Threading;
+using Google.Apis.Util.Store;
+using Google.Apis.Services;
+using Google.Apis.Drive.v3.Data;
+using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Diagnostics;
-using Ookii.Dialogs.Wpf;
 using System.Linq;
-using System.Windows.Data;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using Google.Apis.Plus.v1;
 
 namespace MainApp
 {
     public partial class MainWindow : Window
     {
+        DriveService driveService;
+
+
+
+
         internal Settings settings;
         public MarkedFileData SelectedMarkedFile { get; set; }
         
@@ -100,6 +104,69 @@ namespace MainApp
             BackupFolderBrowsedTo.Text = settings.FolderFinder.FullFilePath;
             settings.BackupManager.BackupDirectory = BackupFolderBrowsedTo.Text;
             settings.Logger.Log("Set " + BackupFolderBrowsedTo.Text + " as backup directory.");
+
+        }
+
+        private void GoogleDriveClick(object sender, RoutedEventArgs e)
+        {
+            //Scopes for use with the Google Drive API
+            string[] scopes = new string[] { DriveService.Scope.Drive,
+                                             DriveService.Scope.DriveFile,};
+            var clientId = "84869280534-8iuhp9cracnc0jtquc1a39v7kaep86p0.apps.googleusercontent.com";      // From https://console.developers.google.com
+            var clientSecret = "DKVRdQQs-PlKmEwgv__2He6J";          // From https://console.developers.google.com
+                                               // here is where we Request the user to give us access, or use the Refresh Token that was previously stored in %AppData%
+            var credential = GoogleWebAuthorizationBroker.AuthorizeAsync(new ClientSecrets
+            {
+                ClientId = clientId,
+                ClientSecret = clientSecret
+            },
+                        scopes,
+                        Environment.UserName,
+                        CancellationToken.None,
+                        new FileDataStore("IFT.GoogleDrive.Auth.Store")).Result;
+            var service = new DriveService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = "ImportantFileTracker",
+            });
+
+
+            driveService = service;
+            settings.Logger.Log("Logged into Google.");
+        }
+
+        public void GoogleDriveMakeDirectory(object sender, RoutedEventArgs e)
+        {
+            settings.Logger.Log("Folder added to Google Drive.");
+            settings.Logger.Log((string)(createDirectory(driveService, "HelloWorldFolder", "fakedescriptiontext", null).Id));
+            settings.Logger.Log("Check your Google Drive.");
+        }
+
+        public static File createDirectory(DriveService _service, string _name, string _description, string _parent)
+        {
+
+            File NewDirectory = null;
+
+            // Create metaData for a new Directory
+            var fileMetadata = new File()
+            {
+                Name = _name,
+             //   Parents = new List<string>() { _parent },
+                MimeType = "application/vnd.google-apps.folder",
+               // Description = _description
+            };
+            try
+            {
+                FilesResource.CreateRequest request = _service.Files.Create(fileMetadata);
+                request.Fields = "id";
+                NewDirectory = request.Execute();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("An error occurred: " + e.Message);
+            }
+
+            return NewDirectory;
         }
 
         private void BackupButton_Click(object sender, RoutedEventArgs e)
