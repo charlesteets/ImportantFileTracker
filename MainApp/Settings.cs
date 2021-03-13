@@ -28,5 +28,15 @@ namespace MainApp
             BackupManager = new BackupViaFileCopying(this.mainWindow);
             MarkedFilesDisplayer = new DisplayMarkedFilesViaInAppListBox(this.mainWindow);
         }
+
+        internal void EnableGoogleDriveBackups()
+        {
+            BackupManager = new BackupViaGoogleDrive(this.mainWindow);
+        }
+
+        internal void EnableLocalBackups()
+        {
+            BackupManager = new BackupViaFileCopying(this.mainWindow);
+        }
     }
 }

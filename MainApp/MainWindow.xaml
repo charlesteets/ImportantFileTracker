@@ -58,14 +58,7 @@
                     Unmark
                 </Button>
 
-                <Button Name="GoogleDrive" Margin="0" Grid.Row="3
-                        " Click="GoogleDriveClick">
-                    Google Drive Login
-                </Button>
-                <Button Name="GoogleDriveMkDir" Margin="0" Grid.Row="4" 
-                        Click="GoogleDriveMakeDirectory">
-                    Google Drive Mkdir
-                </Button>
+                
 
 
             </Grid>
@@ -154,10 +147,10 @@
                     Backup
                 </TextBlock>
                 <WrapPanel Grid.Row="1" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="4">
-                    <Button Name="BrowseToBackupFolder" Click="BrowseToBackupFolder_Click"  Margin="10,0,0,0" Width="50" >Browse...</Button>
-                    <TextBox Name="BackupFolderBrowsedTo" Width="200" Margin="10, 0"></TextBox>
+                    
                     <Button Name="BackupButton" Click="BackupButton_Click" Width="50"  >Backup</Button>
                 </WrapPanel>
+            <Button x:Name="Settings" Content="Settings" Grid.Row="3" Click="Settings_Click"></Button>
             </Grid>
         </WrapPanel>
         <ListBox Name="LogListBox" MinHeight="100" MaxHeight="100" MinWidth="270" MaxWidth="270"  Grid.Column="0" Grid.Row="2" ItemsSource="{Binding Path=BoundConsoleLog, Mode=OneWay}" >

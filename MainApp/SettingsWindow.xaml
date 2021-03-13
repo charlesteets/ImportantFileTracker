@@ -1,0 +1,40 @@
+﻿<Window x:Class="MainApp.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MainApp"
+        mc:Ignorable="d"
+        Title="Settings" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock>Backup Method</TextBlock>
+        <WrapPanel Grid.Row="1" >
+            <RadioButton x:Name="Local" Content="Local Backup"  Click="Local_Checked" IsChecked="True"/>
+            <RadioButton x:Name="Google" Content="Google Drive" Click="Google_Checked"/>
+        </WrapPanel>
+        <WrapPanel Grid.Row="2" Visibility="Collapsed" x:Name="GoogleSettingsPanel">
+            <Button Name="GoogleDriveLogin" Margin="0" Grid.Row="3
+                        " Click="GoogleDriveLogin_Click">
+                Google Drive Login
+            </Button>
+            <TextBlock x:Name="GoogleLoggedInStatus">Logged out.</TextBlock>
+            <TextBox x:Name="GoogleDriveFolderName" Width="200" KeyUp="GoogleDriveFolderName_KeyUp">Enter Backup Folder Name</TextBox>
+        </WrapPanel>
+        <WrapPanel Grid.Row="2" Visibility="Visible" x:Name="LocalBackupSettingsPanel">
+            <Button Name="BrowseToBackupFolder" Click="BrowseToBackupFolder_Click"  Width="50" >Browse...</Button>
+            <TextBox Name="BackupFolderBrowsedTo" Width="200" IsReadOnly="True">Path To Backup Folder...</TextBox>
+        </WrapPanel>
+    </Grid>
+</Window>
